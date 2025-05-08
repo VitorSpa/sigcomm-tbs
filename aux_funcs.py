@@ -17,3 +17,9 @@ def draw_graph(G, save_path, draw_weights=False):
 def update_weight(G, path_list, transfer_size, capacity_scaler):
     for node_a, node_b in zip(path_list, path_list[1:]):
         G[node_a][node_b]['weight'] += capacity_scaler * transfer_size
+
+def path_weights(G, path_list):
+    w_list = []
+    for node_a, node_b in zip(path_list, path_list[1:]):
+        w_list.append(G[node_a][node_b]['weight'])
+    return w_list

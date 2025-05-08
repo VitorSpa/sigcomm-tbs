@@ -4,7 +4,7 @@ from itertools import product
 
 from aux_funcs import draw_graph
 
-
+@st.fragment
 def fat_tree():
     st.write(r'''
         A fat-tree topology is composed of Pods (edge and aggregation switches), Core Switches and Hosts.
@@ -36,8 +36,5 @@ def fat_tree():
         for host in range(n_hosts):
             G.add_edge(pod, f"Host_{host + i}", weight=0)
         i += n_hosts
-
-    draw_graph(G, "Figures/fat_tree.png", draw_weights=False)
-    st.image("Figures/fat_tree.png", caption="Tree")
 
     return G
