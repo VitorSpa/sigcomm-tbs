@@ -16,7 +16,9 @@ def fat_tree():
     st.image("Figures/fat_tree_2.jpg",
              caption="A Fat Tree")
 
-    n_pods = st.slider("How many Pods?", min_value=2, max_value=10, value=2, step=2)
+    col1, col2 = st.columns(2)
+    with col1:
+        n_pods = st.slider("How many Pods?", min_value=2, max_value=10, value=2, step=2)
 
     cores = [f"Core_{x}" for x in range(int(n_pods / 2) ** 2)]
     pods = [f"Pod_{x}" for x in range(n_pods)]
@@ -27,9 +29,12 @@ def fat_tree():
         G.add_edge(core, pod, weight=0)
 
     if max_hosts > 1:
-        n_hosts = st.slider("How many Hosts per Pod?", min_value=1, max_value=max_hosts, value=1, step=1)
+        with col2:
+            n_hosts = st.slider("How many Hosts per Pod?", min_value=1, max_value=max_hosts, value=1, step=1)
     else:
         n_hosts = 1
+        with col2:
+            st.write("Number of Hosts per Pod:", n_hosts)
 
     i = 0
     for pod in pods:
