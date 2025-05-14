@@ -3,7 +3,7 @@ from pyvis.network import Network
 import streamlit.components.v1 as components
 
 from comm_patterns import all_to_all
-from network_topologies import fat_tree, draw_graph
+from network_topologies import fat_tree, twin_graph, draw_graph
 import pandas as pd
 import plotly.express as px
 
@@ -20,13 +20,15 @@ if __name__ == '__main__':
     st.write("## Network Topology")
     network_topo = st.selectbox(
         "Select the topology",
-        ["Other", "Fat Tree"],
+        ["Other", "Fat Tree", "Twin-Graph-Based"],
         index=None,
     )
 
     match network_topo:
         case "Fat Tree":
             G = fat_tree()
+        case "Twin-Graph-Based":
+            G = twin_graph()
         case _:
             G = None
 
