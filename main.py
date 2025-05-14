@@ -10,7 +10,7 @@ import plotly.express as px
 if __name__ == '__main__':
 
     # Introduction
-    #st.set_page_config(layout="wide")
+    st.set_page_config(layout="wide")
 
     with open("Sections/intro.md") as f:
         md_intro = f.read()
@@ -52,10 +52,8 @@ if __name__ == '__main__':
             df["Flow_Id"] = range(len(df))
             st.write("## Flow table:")
             st.dataframe(df, height=200)
-            #draw_graph(G, "Figures/fat_tree_weights.png", draw_weights=True)
 
             st.write("## Wasteless Design")
-            #st.image("Figures/fat_tree_weights.png", caption="Tree")
             nt = Network('500px', '700px')
             nt.from_nx(G)
             for e in nt.edges:
@@ -75,9 +73,9 @@ if __name__ == '__main__':
                 stops = [(flow_completion + computation_time) * i for i in range(training_rounds)]
                 comps = [(i, i + computation_time) for i in stops]
                 comms = [(i + computation_time, i + computation_time + flow_completion) for i in stops[:-1]]
-                st.write("Flow completion time: ", flow_completion, "second(s).")
-                st.write("Flow rate: ", transfer_size / flow_completion, "bits/second.")
-                st.write("Task completion time: ", comps[-1][-1],
+                st.write("Flow completion time: ", round(flow_completion, 2), "second(s).")
+                st.write("Flow rate: ", round(transfer_size / flow_completion, 2), "bits/second.")
+                st.write("Task completion time: ", round(comps[-1][-1], 2),
                          "second(s).")
 
                 df1 = pd.DataFrame()
@@ -100,10 +98,10 @@ if __name__ == '__main__':
 
                 with col2:
                     st.write("Data transfer while computing")
-                    flow_completion = transfer_size /  capacity_scaler
-                    st.write("Flow completion time: ", flow_completion, "second(s).")
-                    st.write("Flow rate: ", transfer_size/flow_completion, "bits/second.")
-                    st.write("Task completion time: ", max(flow_completion, computation_time) * training_rounds,
+                    flow_completion = transfer_size / capacity_scaler
+                    st.write("Flow completion time: ", round(flow_completion, 2), "second(s).")
+                    st.write("Flow rate: ", round(transfer_size/flow_completion, 2), "bits/second.")
+                    st.write("Task completion time: ", round(max(flow_completion, computation_time) * training_rounds, 2),
                              "second(s).")
 
                     stops = [max(flow_completion, computation_time) * i for i in range(training_rounds)]
