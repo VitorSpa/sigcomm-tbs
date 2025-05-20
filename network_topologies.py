@@ -14,8 +14,6 @@ def fat_tree():
         * $\frac{k}{2}^2$ core switches;
         * $\frac{k^3}{4}$ maximum hosts.
         ''')
-    st.image("Figures/fat_tree_2.jpg",
-             caption="A Fat Tree")
 
     col1, col2 = st.columns(2)
     with col1:

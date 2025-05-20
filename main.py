@@ -1,7 +1,8 @@
+import plotly
 import streamlit as st
-from pyvis.network import Network
 import streamlit.components.v1 as components
 
+from aux_funcs import draw_interactive_graph
 from comm_patterns import all_to_all
 from network_topologies import fat_tree, twin_graph, draw_graph
 import pandas as pd
@@ -16,11 +17,21 @@ if __name__ == '__main__':
         md_intro = f.read()
     st.write(md_intro)
 
+    with st.expander("Theoretical Background"):
+        with open("Sections/theory.md") as f:
+            md_intro = f.read()
+        st.write(md_intro)
+
+    with st.expander("Instructions"):
+        with open("Sections/instructions.md") as f:
+            md_intro = f.read()
+        st.write(md_intro)
+
     # Experiment Selection
     st.write("## Network Topology")
     network_topo = st.selectbox(
         "Select the topology",
-        ["Other", "Fat Tree", "Twin-Graph-Based"],
+        ["None", "Fat Tree", "Twin-Graph-Based"],
         index=None,
     )
 
@@ -35,15 +46,23 @@ if __name__ == '__main__':
     # Graph Construction
 
     if G:
-        with st.form("my_form"):
+        with st.form("parameter_form"):
             st.write("## Parameter selection")
+
             col1, col2 = st.columns(2)
             with col1:
-                transfer_size = st.number_input("How much data per flow (bits)?", min_value=0.0, value=1.0, format="%0.4f")
-                capacity_scaler = st.number_input(r"Scaler value ($\alpha$)?", min_value=0.0, value=1.0, format="%0.4f")
+                transfer_size = st.number_input("How much data per flow (Gb):", min_value=0.0, value=1.0, format="%0.4f")
+                capacity_scaler = st.number_input(r"Scaler value ($\alpha$):", min_value=0.0, value=1.0, format="%0.4f")
+                routing_algo = st.selectbox(
+                    "Routing Algorithm:",
+                    ["None", "Shortest Path", "Weighted Shortest Path"],
+                    index=None,
+                )
             with col2:
-                computation_time = st.number_input(r"Computation time (seconds)?", min_value=0.0, value=1.0, format="%0.4f")
-                training_rounds = st.number_input(r"Number of training rounds?", min_value=1, value=1)
+                computation_time = st.number_input(r"Computation time (seconds):", min_value=0.0, value=1.0, format="%0.4f")
+                training_rounds = st.number_input(r"Number of training rounds:", min_value=1, value=1)
+                uniform_capacity = st.number_input("Uniform Topology Capacity:", min_value=0.0, value=1.0,
+                                                   format="%0.4f")
 
             submitted = st.form_submit_button("Submit")
 
@@ -52,20 +71,12 @@ if __name__ == '__main__':
 
             df = pd.DataFrame(paths_lst, columns=["Host A", "Host B", "Path"])
             df["Flow_Id"] = range(len(df))
-            st.write("## Flow table:")
-            st.dataframe(df, height=200)
 
             st.write("## Wasteless Design")
-            nt = Network('500px', '700px')
-            nt.from_nx(G)
-            for e in nt.edges:
-                e['label'] = str(round(e['width'], 2))
-            for e in nt.edges:
-                e['width'] = 2
-            nt.save_graph('Figures/graph.html')
-            HtmlFile = open('Figures/graph.html', 'r', encoding='utf-8')
-            source_code = HtmlFile.read()
-            components.html(source_code, height=600, width=1000)
+
+            graph_code = draw_interactive_graph(G, 'Figures/graph.html', )
+            components.html(graph_code, height=550, width=1400)
+
             st.write("## Computation & Communication Timeline ")
             col1, col2 = st.columns(2)
             with col1:
@@ -93,11 +104,19 @@ if __name__ == '__main__':
                 df2["Task"] = "Communication"
 
                 dff1 = pd.concat([df1, df2], ignore_index=True)
-                dff1['Delta'] = dff1['Finish'] - dff1['Start']
+                dff1['Time'] = dff1['Finish'] - dff1['Start']
 
-                fig2 = px.bar(dff1, base="Start", x="Delta", y="Task", color="Task", orientation="h")
+                fig2 = px.bar(dff1, base="Start", x="Time", y="Task", color="Task", orientation="h")
+                fig2.update_layout(
+                    font=dict(
+                        family="Helvetica Bold",
+                        size=25,  # Set the font size here
+                    ),
+                    showlegend=False
+                )
+                fig2.update_xaxes(title=dict(font=dict(family="Helvetica Bold", size=25)), tickfont=dict(family="Helvetica Bold", size=25))
+                fig2.update_yaxes(title=dict(font=dict(family="Helvetica Bold", size=25)), tickfont=dict(family="Helvetica Bold", size=25))
                 st.plotly_chart(fig2)
-
                 with col2:
                     st.write("Data transfer while computing")
                     flow_completion = transfer_size / capacity_scaler
@@ -138,7 +157,20 @@ if __name__ == '__main__':
                         df3["Round"] = range(df3.shape[0])
                         df3["Task"] = "Communication Idle"
                         dff2 = pd.concat([df1, df2, df3], ignore_index=True)
-                    dff2['Delta'] = dff2['Finish'] - dff2['Start']
+                    dff2['Time'] = dff2['Finish'] - dff2['Start']
 
-                    fig = px.bar(dff2, base="Start", x="Delta", y="Task", color="Task", orientation="h")
+                    fig = px.bar(dff2, base="Start", x="Time", y="Task", color="Task", orientation="h")
+                    fig.update_layout(
+                        yaxis_title=None,
+                        font=dict(
+                            family="Helvetica Bold",
+                            size=25,  # Set the font size here
+                        ),
+                        showlegend=False
+                    )
+                    fig.update_xaxes(title=dict(font=dict(family="Helvetica Bold", size=25)), tickfont=dict(family="Helvetica Bold", size= 25))
+                    fig.update_yaxes(title=dict(font=dict(family="Helvetica Bold", size=25)), tickfont=dict(family="Helvetica Bold", size= 25))
                     st.plotly_chart(fig)
+
+            st.write("## Flow table:")
+            st.dataframe(df, height=200)
