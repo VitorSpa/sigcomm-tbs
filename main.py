@@ -49,20 +49,18 @@ if __name__ == '__main__':
         with st.form("parameter_form"):
             st.write("## Parameter selection")
 
+            routing_algo = st.selectbox(
+                "Routing Algorithm:",
+                ["None", "Shortest Path", "Weighted Shortest Path"],
+                index=None,
+            )
             col1, col2 = st.columns(2)
             with col1:
                 transfer_size = st.number_input("How much data per flow (Gb):", min_value=0.0, value=1.0, format="%0.4f")
                 capacity_scaler = st.number_input(r"Scaler value ($\alpha$):", min_value=0.0, value=1.0, format="%0.4f")
-                routing_algo = st.selectbox(
-                    "Routing Algorithm:",
-                    ["None", "Shortest Path", "Weighted Shortest Path"],
-                    index=None,
-                )
             with col2:
                 computation_time = st.number_input(r"Computation time (seconds):", min_value=0.0, value=1.0, format="%0.4f")
                 training_rounds = st.number_input(r"Number of training rounds:", min_value=1, value=1)
-                uniform_capacity = st.number_input("Uniform Topology Capacity:", min_value=0.0, value=1.0,
-                                                   format="%0.4f")
 
             submitted = st.form_submit_button("Submit")
 

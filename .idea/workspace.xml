@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2864849-9b24-4b5b-9090-9ee871689e4f" name="Changes" comment="ok">
-      <change afterPath="$PROJECT_DIR$/Sections/instructions.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sections/theory.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sections/intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/Sections/intro.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aux_funcs.py" beforeDir="false" afterPath="$PROJECT_DIR$/aux_funcs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_topologies.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_topologies.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +124,9 @@
       <workItem from="1747313611788" duration="2241000" />
       <workItem from="1747341435061" duration="1506000" />
       <workItem from="1747405859402" duration="606000" />
-      <workItem from="1747743500109" duration="12100000" />
+      <workItem from="1747743500109" duration="12133000" />
+      <workItem from="1747825356125" duration="1301000" />
+      <workItem from="1747835014113" duration="310000" />
     </task>
     <task id="LOCAL-00001" summary="ok">
       <option name="closed" value="true" />
@@ -146,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747229730268</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ok">
+      <option name="closed" value="true" />
+      <created>1747755645226</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747755645226</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
