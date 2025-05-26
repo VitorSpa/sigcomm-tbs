@@ -3,8 +3,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from aux_funcs import draw_interactive_graph
-from comm_patterns import all_to_all
-from network_topologies import fat_tree, twin_graph, draw_graph
+from comm_patterns import weighted_shortest_path, shortest_path
+from network_topologies import fat_tree, twin_graph, draw_graph, custom_topo
 import pandas as pd
 import plotly.express as px
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     st.write("## Network Topology")
     network_topo = st.selectbox(
         "Select the topology",
-        ["None", "Fat Tree", "Twin-Graph-Based"],
+        ["Custom", "Fat Tree", "Twin-Graph-Based"],
         index=None,
     )
 
@@ -40,6 +40,8 @@ if __name__ == '__main__':
             G = fat_tree()
         case "Twin-Graph-Based":
             G = twin_graph()
+        case "Custom":
+            G = custom_topo()
         case _:
             G = None
 
@@ -65,7 +67,13 @@ if __name__ == '__main__':
             submitted = st.form_submit_button("Submit")
 
         if submitted:
-            paths_lst = all_to_all(G, transfer_size, capacity_scaler)
+            match routing_algo:
+                case "Shortest Path":
+                    paths_lst = shortest_path(G, transfer_size, capacity_scaler)
+                case "Weighted Shortest Path":
+                    paths_lst = weighted_shortest_path(G, transfer_size, capacity_scaler)
+                case _:
+                    G = None
 
             df = pd.DataFrame(paths_lst, columns=["Host A", "Host B", "Path"])
             df["Flow_Id"] = range(len(df))

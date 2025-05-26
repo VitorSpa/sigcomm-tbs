@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    {
+      "id": "Host_01"
+    },
+    {
+      "id": "Switch_01"
+    },
+    {
+      "id": "Host_02"
+    }
+  ],
+  "links": [
+    {
+      "source": "A",
+      "target": "B",
+      "value": 1
+    },
+    {
+      "source": "B",
+      "target": "C",
+      "value": 2
+    }
+  ]
+}

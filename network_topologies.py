@@ -1,9 +1,45 @@
+from io import StringIO
+
 import streamlit as st
+import json
 import networkx as nx
+from networkx.readwrite import json_graph
+
 from itertools import product, combinations
 import numpy as np
 
 from aux_funcs import draw_graph
+
+
+@st.fragment
+def custom_topo():
+    st.write(r'''
+        User defined custom topology. 
+        Provide a JSON with the following structure:
+        ''')
+    st.json(
+        {
+            "nodes": [
+                {"id": "A"},
+                {"id": "B"},
+                {"id": "C"},
+            ],
+            "links": [
+                {"source": "A", "target": "B", "value": 1},
+                {"source": "B", "target": "C", "value": 2},
+            ]
+        }, expanded=2,
+    )
+    uploaded_file = st.file_uploader(
+        "Topology file", accept_multiple_files=False, type=['json']
+    )
+
+    G = nx.Graph()
+    if uploaded_file is not None:
+        js_graph = json.load(uploaded_file)
+        G = json_graph.node_link_graph(js_graph)
+        print(G)
+    return G
 
 @st.fragment
 def fat_tree():
@@ -60,11 +96,9 @@ def twin_graph():
         * The minimum possible maximum degree is 2, and in practice, degree ∈ [2, n−1];
         Twin graphs are 2-geodetically-connected, ensuring two node-disjoint shortest paths between all non-adjacent nodes.
         ''')
-    
-    #st.image("Figures/twin-graph.jpg",
+
+    # st.image("Figures/twin-graph.jpg",
     #         caption="A Twin-Graph-Based Topology")
-
-
 
     col1, col2 = st.columns(2)
     with col1:
@@ -82,6 +116,7 @@ def create_base_twin_graph():
     G.add_edges_from([("Host_0", "Host_1"), ("Host_1", "Host_2"), ("Host_2", "Host_3"), ("Host_3", "Host_0")], weight=0)
     return G
 
+
 def find_twin_pairs(G):
     pairs = []
     for u, v in combinations(G.nodes, 2):
@@ -90,6 +125,7 @@ def find_twin_pairs(G):
         if nu == nv:
             pairs.append((u, v))
     return pairs
+
 
 def heuristic_zscore_twin_graph(n, beta=0.5):
     if n < 4:
