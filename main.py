@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 
 from aux_funcs import draw_interactive_graph
 from comm_patterns import weighted_shortest_path, shortest_path
-from network_topologies import fat_tree, twin_graph, draw_graph, custom_topo
+from network_topologies import fat_tree, dragonfly, twin_graph, draw_graph, custom_topo
 import pandas as pd
 import plotly.express as px
 
@@ -31,13 +31,15 @@ if __name__ == '__main__':
     st.write("## Network Topology")
     network_topo = st.selectbox(
         "Select the topology",
-        ["Custom", "Fat Tree", "Twin-Graph-Based"],
+        ["Custom", "Fat Tree", "Dragonfly", "Twin-Graph-Based"],
         index=None,
     )
 
     match network_topo:
         case "Fat Tree":
             G = fat_tree()
+        case "Dragonfly":
+            G = dragonfly()
         case "Twin-Graph-Based":
             G = twin_graph()
         case "Custom":

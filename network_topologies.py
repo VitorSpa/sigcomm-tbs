@@ -81,6 +81,26 @@ def fat_tree():
 
 
 @st.fragment
+def dragonfly():
+    st.write(r'''
+             A dragonfly topology is composed of p pods, each with a hosts (for simpler implementation).
+             Each host is connected with every other host in its pod, forming a full-mesh.
+             Each host is also connected to h other hosts in other pods, via interpod links.
+             ''')
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        a = st.slider("How many Hosts per Pod?", min_value=2, max_value=5, value=1, step=1)
+    with col2:
+        p = st.slider("How many Pods?", min_value=1, max_value=15, value=a+1, step=1)
+    with col3:
+        h = st.slider("How many Inter-Pod links?", min_value=1, max_value=10, value=1, step=1)
+
+    G = generate_dragonfly(p, a, h)
+
+    return G
+
+@st.fragment
 def twin_graph():
     st.write(r'''
         A Twin-graph topology is a recursively constructed, server-centric interconnection model defined by twin pairs
@@ -97,9 +117,6 @@ def twin_graph():
         Twin graphs are 2-geodetically-connected, ensuring two node-disjoint shortest paths between all non-adjacent nodes.
         ''')
 
-    # st.image("Figures/twin-graph.jpg",
-    #         caption="A Twin-Graph-Based Topology")
-
     col1, col2 = st.columns(2)
     with col1:
         n = st.slider("How many nodes?", min_value=4, max_value=16, value=4, step=1)
@@ -111,11 +128,89 @@ def twin_graph():
     return G
 
 
+# ------------------------- #
+#       Aux functions       #
+# ------------------------- #
+
+def generate_dragonfly(p, a, h):
+    """
+    Generates a graph representing a Dragonfly topology.
+
+    Parameters:
+    - p: Number of pods
+    - a: Number of hosts per pod
+    - h: Number of inter-pod connections per host
+
+    Returns:
+    - G: NetworkX graph representing the Dragonfly topology
+    """
+    G = nx.Graph()
+    max_inter_links = (p * a * h) // 2
+    host_id = lambda pod, index: f"Host_{pod * a + index}"
+
+    # Initialize hosts and pods
+    for pod in range(p):
+        for index in range(a):
+            G.add_node(host_id(pod, index), type='host', group=pod)
+
+    # Intra-pod connections
+    for pod in range(p):
+        for i in range(a):
+            for j in range(i + 1, a):
+                G.add_edge(host_id(pod, i), host_id(pod, j), type='intra', weight=0)
+
+    # Inter-pod connections
+    inserted_links = {node_id: 0 for node_id in G.nodes()} # Dict keeps track of amount of established connections
+    added_links = 0
+    added_links_pod = {pod_id: 0 for pod_id in range(p)}
+
+    if p > 1:
+        iconp = a * h # Interconnections per pod
+
+        ref_p = 1 # Index of next pod on the "circle"
+
+        for p1 in range(p): # Looping through all pods
+            while added_links_pod[p1] < iconp: # Ensuring to handle all connections
+                if added_links >= max_inter_links:
+                    return G
+
+                h1 = host_id(p1, added_links_pod[p1] % a)
+
+                # Running initial loop checks, setting flag
+                flag = ref_p == p1 or added_links_pod[ref_p] >= iconp
+
+                    # Checking if host already connects to same pod
+                for host in G.neighbors(h1):
+                    if G.nodes[host]['group'] == ref_p:
+                        flag = True
+                        break
+
+                if flag:
+                    ref_p += 1
+                    ref_p %= p
+                    continue
+
+                h2 = host_id(ref_p, added_links_pod[ref_p] % a)
+
+                # Adding valid edge
+                G.add_edge(h1, h2, type='inter', weight=0)
+                inserted_links[h1] += 1
+                inserted_links[h2] += 1
+                added_links += 1
+                added_links_pod[p1] += 1
+                added_links_pod[ref_p] += 1
+
+                # Continuing to travel the "circle" of pods
+                ref_p += 1
+                ref_p %= p
+
+    return G
+
+
 def create_base_twin_graph():
     G = nx.Graph()
     G.add_edges_from([("Host_0", "Host_1"), ("Host_1", "Host_2"), ("Host_2", "Host_3"), ("Host_3", "Host_0")], weight=0)
     return G
-
 
 def find_twin_pairs(G):
     pairs = []
@@ -125,7 +220,6 @@ def find_twin_pairs(G):
         if nu == nv:
             pairs.append((u, v))
     return pairs
-
 
 def heuristic_zscore_twin_graph(n, beta=0.5):
     if n < 4:
