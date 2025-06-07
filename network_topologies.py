@@ -83,20 +83,23 @@ def fat_tree():
 @st.fragment
 def dragonfly():
     st.write(r'''
-             A dragonfly topology is composed of p pods, each with a hosts (for simpler implementation).
-             Each host is connected with every other host in its pod, forming a full-mesh.
-             Each host is also connected to h other hosts in other pods, via interpod links.
+             A dragonfly topology is composed of p pods, each with a switches.
+             Each switch is connected with every other switch in its pod, forming a full-mesh.
+             Each switch is also connected to h other switches in other pods, via interpod links.
+             Each switch is connected to s hosts
+
+             To achieve a canonical dragonfly, ensure p = a+1 and h = 1
              ''')
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2= st.columns(2)
     with col1:
-        a = st.slider("How many Hosts per Pod?", min_value=2, max_value=5, value=1, step=1)
+        a = st.slider("How many Switches per Pod? (a)", min_value=2, max_value=5, value=1, step=1)
+        s = st.slider("How many Hosts per Switch? (s)", min_value=1, max_value=3, value=1, step=1)
     with col2:
-        p = st.slider("How many Pods?", min_value=1, max_value=15, value=a+1, step=1)
-    with col3:
-        h = st.slider("How many Inter-Pod links?", min_value=1, max_value=10, value=1, step=1)
+        p = st.slider("How many Pods? (p)", min_value=2, max_value=15, value=2, step=1)
+        h = st.slider("How many Inter-Pod links? (h)", min_value=1, max_value=5, value=1, step=1)
 
-    G = generate_dragonfly(p, a, h)
+    G = generate_dragonfly(p, a, h, s)
 
     return G
 
@@ -132,32 +135,33 @@ def twin_graph():
 #       Aux functions       #
 # ------------------------- #
 
-def generate_dragonfly(p, a, h):
+def generate_dragonfly(p, a, h, s):
     """
     Generates a graph representing a Dragonfly topology.
 
     Parameters:
     - p: Number of pods
-    - a: Number of hosts per pod
-    - h: Number of inter-pod connections per host
+    - a: Number of switches per pod
+    - h: Number of inter-pod connections per switch
+    - s: Number of hosts per switch
 
     Returns:
     - G: NetworkX graph representing the Dragonfly topology
     """
     G = nx.Graph()
     max_inter_links = (p * a * h) // 2
-    host_id = lambda pod, index: f"Host_{pod * a + index}"
+    switch_id = lambda pod, index: f"Switch_{pod * a + index}"
 
-    # Initialize hosts and pods
+    # Initialize switches and pods
     for pod in range(p):
         for index in range(a):
-            G.add_node(host_id(pod, index), type='host', group=pod)
+            G.add_node(switch_id(pod, index), type='host', group=pod)
 
     # Intra-pod connections
     for pod in range(p):
         for i in range(a):
             for j in range(i + 1, a):
-                G.add_edge(host_id(pod, i), host_id(pod, j), type='intra', weight=0)
+                G.add_edge(switch_id(pod, i), switch_id(pod, j), type='intra', weight=0)
 
     # Inter-pod connections
     inserted_links = {node_id: 0 for node_id in G.nodes()} # Dict keeps track of amount of established connections
@@ -174,7 +178,7 @@ def generate_dragonfly(p, a, h):
                 if added_links >= max_inter_links:
                     return G
 
-                h1 = host_id(p1, added_links_pod[p1] % a)
+                h1 = switch_id(p1, added_links_pod[p1] % a)
 
                 # Running initial loop checks, setting flag
                 flag = ref_p == p1 or added_links_pod[ref_p] >= iconp
@@ -190,9 +194,10 @@ def generate_dragonfly(p, a, h):
                     ref_p %= p
                     continue
 
-                h2 = host_id(ref_p, added_links_pod[ref_p] % a)
+                h2 = switch_id(ref_p, added_links_pod[ref_p] % a)
 
                 # Adding valid edge
+
                 G.add_edge(h1, h2, type='inter', weight=0)
                 inserted_links[h1] += 1
                 inserted_links[h2] += 1
@@ -203,6 +208,14 @@ def generate_dragonfly(p, a, h):
                 # Continuing to travel the "circle" of pods
                 ref_p += 1
                 ref_p %= p
+
+    # Host - Switch connections
+    hosts_added = 0
+    for pod in range(p):
+        for switch in range(a):
+            for host in range(s):
+                G.add_edge(switch_id(pod, switch), f"Host_{hosts_added}", type='host', weight=0)
+                hosts_added += 1
 
     return G
 
