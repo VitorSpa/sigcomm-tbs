@@ -1,5 +1,4 @@
-from io import StringIO
-
+import pandas as pd
 import streamlit as st
 import json
 import networkx as nx
@@ -7,8 +6,6 @@ from networkx.readwrite import json_graph
 
 from itertools import product, combinations
 import numpy as np
-
-from aux_funcs import draw_graph
 
 
 @st.fragment
@@ -39,6 +36,20 @@ def custom_topo():
         js_graph = json.load(uploaded_file)
         G = json_graph.node_link_graph(js_graph)
         print(G)
+    return G
+
+@st.fragment
+def rnp():
+    df = pd.read_csv("Topos/rnp.csv", sep=",")
+    df["weight"] = 0
+    G = nx.from_pandas_edgelist(df, "nodeA", "nodeB", "weight")
+    n_nodes = st.slider("How many nodes in each site?", min_value=1, max_value=10, value=1, step=1)
+    i = 0
+    nodes = list(G.nodes())
+    for node in nodes:
+        for j in range(n_nodes):
+            G.add_edge(node, f"Host_{i}", weight=0)
+            i+=1
     return G
 
 @st.fragment

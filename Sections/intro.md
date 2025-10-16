@@ -1,8 +1,5 @@
-# A Quantitative Analysis Tool for Bottleneck-Aware Network Design in Distributed AI Training
+# Projeto de Redes Ciente de Gargalos para Otimização do Treinamento de Modelos Distribuídos de IA
 
-## Introduction
+## Introdução
 
-This demonstration presents **BotAI**, a bottleneck-aware network design tool optimized for distributed AI training workloads. 
-Leveraging Bottleneck Structure Theory (BST), **BotAI** produces an efficient, wasteless network configuration tailored to a given topology and system setup. 
-It ensures that all data flows complete simultaneously, no bandwidth is wasted, and throughput is maximized—achieving peak performance at a fixed cost. 
-This optimized design serves as a robust performance baseline before considering any overprovisioning strategies.
+O treinamento distribuído de modelos de IA impõe uma demanda crescente por comunicação eficiente tanto dentro quanto entre datacenters. Com base na Teoria dos Gargalos (BST), este trabalho visa projetar uma rede ciente dos gargalos, buscando minimizar o tempo total de treinamento utilizando a menor largura de banda possível. Propomos uma metodologia para otimizar as configurações de rede, promovendo eficiência e evitando desperdício de recursos. Esse projeto de rede otimizado estabelece uma linha de base robusta de desempenho, a ser considerada antes da adoção de qualquer estratégia de superprovisionamento.

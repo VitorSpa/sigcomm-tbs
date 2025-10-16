@@ -1,0 +1,52 @@
+nodeA,nodeB,distance,capacity
+São Paulo,Rio de Janeiro,441,200.0
+São Paulo,Curitiba,403,100.0
+São Paulo,Porto Alegre,1128,100.0
+São Paulo,Florianópolis,688,10.0
+São Paulo,Belo Horizonte,587,10.0
+São Paulo,Brasília,1001,20.0
+São Paulo,Fortaleza,2937,200.0
+Rio de Janeiro,Brasília,1159,100.0
+Rio de Janeiro,Vitória,519,10.0
+Rio de Janeiro,Belo Horizonte,445,20.0
+Vitória,Belo Horizonte,520,10.0
+Vitória,Salvador,1155,100.0
+Belo Horizonte,Brasília,734,10.0
+Belo Horizonte,Salvador,1409,100.0
+Curitiba,Campo Grande,992,10.0
+Curitiba,Florianópolis,302,100.0
+Curitiba,Porto Alegre,742,200.0
+Porto Alegre,Florianópolis,457,100.0
+Campo Grande,Cuiabá,704,100.0
+Cuiabá,Porto Velho,1445,100.0
+Cuiabá,Brasília,1134,100.0
+Cuiabá,Goiânia,932,10.0
+Goiânia,Brasília,204,10.0
+Goiânia,Palmas,858,10.0
+Brasília,Palmas,810,100.0
+Brasília,Salvador,1469,100.0
+Brasília,Belém,1855,0.0
+Brasília,São Luis,1968,0.0
+Brasília,Fortaleza,2111,10.0
+Goiânia,Belém,1189,0.0
+Salvador,Aracaju,323,100.0
+Salvador,Campina Grande,903,0.0
+Salvador,Fortaleza,1201,100.0
+Salvador,Teresina,1223,100.0
+Aracaju,Maceió,268,100.0
+Maceió,Recife,258,100.0
+Recife,Campina Grande,193,0.0
+Recife,João Pessoa,118,10.0
+João Pessoa,Campina Grande,127,0.0
+Campina Grande,Natal,257,0.0
+Natal,Fortaleza,514,100.0
+Fortaleza,Teresina,591,100.0
+Fortaleza,Boa Vista,4939,1.0
+Teresina,São Luis,431,0.0
+São Luis,Belém,793,0.0
+Belém,Macapá,1904,100.0
+Macapá,Manaus,3009,100.0
+Manaus,Boa Vista,743,1.0
+Manaus,Brasília,3463,3.0
+Rio Branco,Porto Velho,510,3.0
+Rio Branco,Brasília,3083,3.0
