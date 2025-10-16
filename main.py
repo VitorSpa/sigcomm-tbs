@@ -17,9 +17,9 @@ if __name__ == '__main__':
     with col1:
         st.image("Figures/ufes-logo.png")
     with col2:
-        st.image("Figures/eri-es.png")
-    with col3:
         st.image("Figures/dsl-logo.png")
+    with col3:
+        st.image("Figures/eri-es.png")
 
     with open("Sections/intro.md") as f:
         md_intro = f.read()
