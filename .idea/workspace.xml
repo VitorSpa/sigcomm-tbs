@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2864849-9b24-4b5b-9090-9ee871689e4f" name="Changes" comment="ok">
-      <change afterPath="$PROJECT_DIR$/Figures/dsl-logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Figures/eri-es.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Figures/ufes-logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Topos/rnp.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sigcomm-tbs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sigcomm-tbs.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sections/intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/Sections/intro.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_topologies.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_topologies.py" afterDir="false" />
-    </list>
+    <list default="true" id="b2864849-9b24-4b5b-9090-9ee871689e4f" name="Changes" comment="ok" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +20,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -168,7 +159,7 @@
       <workItem from="1753714639108" duration="1910000" />
       <workItem from="1756813182380" duration="292000" />
       <workItem from="1759240451468" duration="128000" />
-      <workItem from="1760641162810" duration="707000" />
+      <workItem from="1760641162810" duration="1115000" />
     </task>
     <task id="LOCAL-00001" summary="ok">
       <option name="closed" value="true" />
@@ -210,7 +201,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748273397974</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="ok">
+      <option name="closed" value="true" />
+      <created>1760641935510</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760641935510</updated>
+    </task>
+    <task id="LOCAL-00007" summary="ok">
+      <option name="closed" value="true" />
+      <created>1760642028793</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760642028793</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

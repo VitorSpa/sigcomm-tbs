@@ -14,12 +14,8 @@ if __name__ == '__main__':
     st.set_page_config(layout="wide")
 
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.image("Figures/ufes-logo.png")
     with col2:
-        st.image("Figures/dsl-logo.png")
-    with col3:
-        st.image("Figures/eri-es.png")
+        st.image("Figures/logo-eries.png")
 
     with open("Sections/intro.md") as f:
         md_intro = f.read()
